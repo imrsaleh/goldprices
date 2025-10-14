@@ -416,35 +416,38 @@
       const exchangeRate = exchangeRates[selectedCurrency];
       
       // حساب الأسعار للذهب عيار 24
-      const PerGram24 = (usdPerGram * exchangeRate).toFixed(2);
-      const PerGram24bid = (PerGram24 * 0.98).toFixed(2);
-      const PerGram24ask = (PerGram24 * 1.05).toFixed(2);
+      const PerGram24 = usdPerGram * exchangeRate;
+      const PerGram24bid = PerGram24 * 0.98;
+      const PerGram24ask = PerGram24 * 1.05;
       
       // حساب الأسعار للذهب عيار 22
-      const PerGram22 = (PerGram24 * (22/24)).toFixed(2);
-      const PerGram22bid = (PerGram22 * 0.98).toFixed(2);
-      const PerGram22ask = (PerGram22 * 1.05).toFixed(2);
+      const PerGram22 = PerGram24 * (22/24);
+      const PerGram22bid = PerGram22 * 0.98;
+      const PerGram22ask = PerGram22 * 1.05;
       
       // حساب الأسعار للذهب عيار 21
-      const PerGram21 = (PerGram24 * (21/24)).toFixed(2);
-      const PerGram21bid = (PerGram21 * 0.98).toFixed(2);
-      const PerGram21ask = (PerGram21 * 1.05).toFixed(2);
-      
+      const PerGram21 = PerGram24 * (21/24);
+      const PerGram21bid = PerGram21 * 0.98;
+      const PerGram21ask = PerGram21 * 1.05;
+
+      // خيارات التنسيق
+      const formatOptions = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
+
       // تحديث واجهة المستخدم
-      document.getElementById('24K-price').textContent = PerGram24;
-      document.getElementById('24K-base').textContent = PerGram24;
-      document.getElementById('24K-bid').textContent = PerGram24bid;
-      document.getElementById('24K-ask').textContent = PerGram24ask;
+      document.getElementById('24K-price').textContent = PerGram24.toLocaleString('en-US', formatOptions);
+      document.getElementById('24K-base').textContent = PerGram24.toLocaleString('en-US', formatOptions);
+      document.getElementById('24K-bid').textContent = PerGram24bid.toLocaleString('en-US', formatOptions);
+      document.getElementById('24K-ask').textContent = PerGram24ask.toLocaleString('en-US', formatOptions);
       
-      document.getElementById('22K-price').textContent = PerGram22;
-      document.getElementById('22K-base').textContent = PerGram22;
-      document.getElementById('22K-bid').textContent = PerGram22bid;
-      document.getElementById('22K-ask').textContent = PerGram22ask;
+      document.getElementById('22K-price').textContent = PerGram22.toLocaleString('en-US', formatOptions);
+      document.getElementById('22K-base').textContent = PerGram22.toLocaleString('en-US', formatOptions);
+      document.getElementById('22K-bid').textContent = PerGram22bid.toLocaleString('en-US', formatOptions);
+      document.getElementById('22K-ask').textContent = PerGram22ask.toLocaleString('en-US', formatOptions);
       
-      document.getElementById('21K-price').textContent = PerGram21;
-      document.getElementById('21K-base').textContent = PerGram21;
-      document.getElementById('21K-bid').textContent = PerGram21bid;
-      document.getElementById('21K-ask').textContent = PerGram21ask;
+      document.getElementById('21K-price').textContent = PerGram21.toLocaleString('en-US', formatOptions);
+      document.getElementById('21K-base').textContent = PerGram21.toLocaleString('en-US', formatOptions);
+      document.getElementById('21K-bid').textContent = PerGram21bid.toLocaleString('en-US', formatOptions);
+      document.getElementById('21K-ask').textContent = PerGram21ask.toLocaleString('en-US', formatOptions);
     }
 
     // تحديث وقت آخر تحديث
