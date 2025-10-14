@@ -153,12 +153,7 @@
       color: #95a5a6;
       font-size: 0.9rem;
     }
-    
-    .loader {
-      text-align: center;
-      padding: 20px;
-      color: #7f8c8d;
-    }
+
     
     .error {
       text-align: center;
@@ -168,53 +163,7 @@
       border-radius: 8px;
       margin: 20px 0;
     }
-    
-    .warning {
-      text-align: center;
-      padding: 15px;
-      color: #f39c12;
-      background-color: #fef5e7;
-      border-radius: 8px;
-      margin: 20px 0;
-      border-right: 4px solid #f39c12;
-    }
-    
-    .info {
-      text-align: center;
-      padding: 15px;
-      color: #3498db;
-      background-color: #ebf5fb;
-      border-radius: 8px;
-      margin: 20px 0;
-      border-right: 4px solid #3498db;
-    }
-    
-    .connection-status {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
-      padding: 10px 15px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      color: white;
-      z-index: 100;
-    }
-    
-    .connected {
-      background-color: #2ecc71;
-    }
-    
-    .disconnected {
-      background-color: #e74c3c;
-    }
-    
-    .fallback {
-      background-color: #f39c12;
-    }
-    
-    .initial {
-      background-color: #3498db;
-    }
+
     
     @media (max-width: 768px) {
       .gold-prices {
@@ -283,11 +232,6 @@
       آخر تحديث: <span id="last-update-time">--</span>
     </div>
   </div>
-  
-  <div class="connection-status initial" id="connection-status">
-    جارٍ التحميل...
-  </div>
-
   <script>
     // بيانات العملات
     const currency_code = [
@@ -326,8 +270,8 @@
     let connectionTimeout;
     
     // السعر الاحتياطي للأونصة بالدولار
-    const FALLBACK_USD_PER_OUNCE = 4018.21;
-    const FALLBACK_UPDATE_DATE = "12/10/2025";
+    const FALLBACK_USD_PER_OUNCE = 4152.35;
+    const FALLBACK_UPDATE_DATE = "14/10/2025";
 
     // تهيئة الصفحة
     document.addEventListener('DOMContentLoaded', function() {
@@ -398,7 +342,6 @@
       updateGoldPrices(usdPerGram);
       updateLastUpdateTime(FALLBACK_UPDATE_DATE);
       
-      updateConnectionStatus('initial');
     }
 
     // تهيئة اتصال WebSocket لأسعار الذهب الحية
@@ -410,7 +353,6 @@
 
       socket.on('connect', () => {
         console.log('✅ تم الاتصال بخادم أسعار الذهب');
-        updateConnectionStatus(true);
         clearTimeout(connectionTimeout);
         isUsingFallbackGoldData = false;
       });
@@ -438,13 +380,11 @@
 
       socket.on('disconnect', () => {
         console.warn('❌ تم قطع الاتصال بخادم أسعار الذهب');
-        updateConnectionStatus(false);
         setTimeout(useFallbackGoldDataWithNotification, 2000);
       });
 
       socket.on('error', (error) => {
         console.error('خطأ في الاتصال بخادم الذهب:', error);
-        updateConnectionStatus(false);
         useFallbackGoldDataWithNotification();
       });
 
@@ -462,8 +402,7 @@
         
         updateGoldPrices(usdPerGram);
         updateLastUpdateTime();
-        
-        updateConnectionStatus('fallback');
+
       }
     }
 
@@ -508,25 +447,6 @@
       document.getElementById('21K-ask').textContent = PerGram21ask;
     }
 
-    // تحديث حالة الاتصال
-    function updateConnectionStatus(status) {
-      const statusElement = document.getElementById('connection-status');
-      
-      if (status === true) {
-        statusElement.textContent = 'متصل - الأسعار محدثة لحظياً';
-        statusElement.className = 'connection-status connected';
-      } else if (status === 'fallback') {
-        statusElement.textContent = 'غير متصل - عرض بيانات ذهب احتياطية';
-        statusElement.className = 'connection-status fallback';
-      } else if (status === 'initial') {
-        statusElement.textContent = 'جارٍ الاتصال - عرض بيانات ذهب احتياطية';
-        statusElement.className = 'connection-status initial';
-      } else {
-        statusElement.textContent = 'غير متصل - جارٍ إعادة الاتصال';
-        statusElement.className = 'connection-status disconnected';
-      }
-    }
-
     // تحديث وقت آخر تحديث
     function updateLastUpdateTime(customDate) {
       if (customDate) {
@@ -541,4 +461,3 @@
   </script>
 </body>
 </html>
-
